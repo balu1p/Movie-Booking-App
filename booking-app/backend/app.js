@@ -1,13 +1,22 @@
 const express = require ("express");
-const app = express();
 const mongoose  = require ("mongoose");
+const app = express();
 const dotenv  = require ('dotenv');
 const userRouter  = require ("./routes/user-routes.js");
 const adminRouter  = require  ("./routes/admin-routes.js");
 const movieRouter  = require  ("./routes/movie-routes.js");
-const cors = require('cors')
+const bookingRouter = require("./routes/booking-routes.js");
+const cors = require('cors');
+app.use(cors());
 dotenv.config();
 const PORT=4500;
+
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
+  });
 
 //middleware routes
 app.use(express.json());

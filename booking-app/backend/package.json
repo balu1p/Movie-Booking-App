@@ -77,7 +77,7 @@
     "yallist": "^4.0.0"
   },
   "scripts": {
-    "start": "nodemon--experimental-modules --es-module-specifier-resolution=node app.js",
+    "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

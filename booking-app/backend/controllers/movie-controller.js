@@ -3,7 +3,7 @@ const { default: mongoose } = require("mongoose");
 const Admin = require("../models/Admin");
 const Movie = require ("../models/Movie");
 const addMovie = async (req, res, next) => {
-    const extractedToken = req.headers.authorization.Split(" ")[1];
+    const extractedToken = req.headers.authorization.split(" ")[1];
     
     if (!extractedToken && extractedToken.trim() === "") {
         return res.status(401).json({
@@ -28,7 +28,9 @@ const addMovie = async (req, res, next) => {
     //create a new movie{
     
     const { title, description, releaseDate, posterUrl, featured, actors } = req.body;
-    if (!title && title.trim() === "" && !description && description.trim() === "" && !posterUrl && posterUrl.trim() === " ") {
+    if (!title && title.trim() === "" && !description && description.trim() === "" &&!posterUrl && posterUrl.trim() === " "
+    )
+    {
         return res.status(422).json({ message: "Invalid Inputs" });
     }
     
