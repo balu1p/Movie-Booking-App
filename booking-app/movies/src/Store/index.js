@@ -1,42 +1,40 @@
-import { configureStore, createSlice } from "@reduxjs/toolkit";
-
-const userSlice = createSlice({
-    name: "user",
-    initialState: {
-        isLoggedIn:false
-    },
-    reducers: {
+import {configureStore, createSlice} from "@reduxjs/toolkit";
+const userSlice=createSlice({
+    name:'user',
+    initialState:{isLoggedIn:false},
+    reducers:{
         login(state) {
-            state.isLoggedIn = true;
-         },
+            state.isLoggedIn=true;
+        },
         logout(state) {
             localStorage.removeItem("userId");
-            state.isLoggedIn = false;
-         },
-    },
-})
-const adminSlice = createSlice({
-    name: 'auth',
-    initialState: {
-        isLoggedIn:false
-    },
-    reducers: {
+            state.isLoggedIn=false;
+
+        },
+    }
+});
+
+const adminSlice=createSlice({
+    name:'auth',
+    initialState:{isLoggedIn:false},
+    reducers:{
         login(state) {
-            state.isLoggedIn = false;
+            state.isLoggedIn=true;
         },
         logout(state) {
-            localStorage.removeItem("admiinId");
+            localStorage.removeItem("adminId");
             localStorage.removeItem("token");
-            state.isLoggedIn = false;
+            state.isLoggedIn=false;
         },
-    },
-});
-export const userActions = userSlice.actions;
-export const adminActions = adminSlice.actions;
+    }
+})
+export const userActions=userSlice.actions;
+export const adminActions=adminSlice.actions;
 
-export const store = configureStore({
-    reducer: {
-        user: userSlice.reducer,
-        admin: adminSlice.reducer,
+export const store=configureStore({
+    reducer:{
+        user:userSlice.reducer,
+        admin:adminSlice.reducer,
     },
 })
+

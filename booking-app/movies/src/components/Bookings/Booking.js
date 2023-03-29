@@ -1,17 +1,25 @@
-import { Box, Button, FormLabel, TextField, Typography } from '@mui/material';
+import { Button, FormLabel, TextField, Typography } from '@mui/material';
+import { Box } from '@mui/system';
 import React, { Fragment, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
-import { getMovieDetails, newBooking } from '../../api-helpers/api-helpers';
-
-const Bookings = () => {
-    const [movie, setMovie] = useState();
+import {useParams} from 'react-router-dom';
+import { getMoviedetails, newBooking } from '../../api-helper/api-helpers';
+const Booking = () => {
+    const [movie, setMovie] = useState()
     const [inputs, setInputs] = useState({ seatNumber: "", date: "" });
-
-    const id = useParams().id;
+    const id=useParams().id;
     console.log(id);
+
+
     useEffect(() => {
-        getMovieDetails(id).then((res) => setMovie(res.movie)).catch((err) => console.log(err));
-    }, [id]);
+        getMoviedetails(id).then((res) => {
+          setMovie(res.movie);
+        }).catch((error) => {
+          console.log(error);
+        });
+      }, [id]);
+    
+    console.log(movie);
+
     const handleChange = (e) => {
         setInputs((prevState) => ({
             ...prevState,
@@ -21,14 +29,18 @@ const Bookings = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(inputs);
-        newBooking({ ...inputs, movie: movie._id }).then((res) => console.log(res)).catch((err) => console.log(err));
+      newBooking({ ...inputs, movie: movie._id }).then((res) => console.log(res)).catch((err) => console.log(err));
 
     }
-    return (
-        <div>
-            {movie &&
-                <Fragment>
 
+
+
+
+  return (
+    <>
+         {movie && 
+                <Fragment>
+                    
                     <Typography padding={3}
                         fontFamily="fantasy"
                         variant='h4'
@@ -66,51 +78,52 @@ const Bookings = () => {
                                     Release Date: {new Date(movie.releaseDate).toDateString()}
                                 </Typography>
 
-
-
+                                
+                               
                             </Box>
                         </Box>
                         <Box width={"50%"} paddingTop={3}>
-                            <form onSubmit={handleSubmit}>
-                                <Box
-                                    padding={5}   
-                                    margin={'auto'}
-                                    display="flex"
-                                    flexDirection={'column'}
-                                >
-                                    <FormLabel>
-                                        seat Number
-                                    </FormLabel>
-                                    <TextField
-                                        value={inputs.seatNumber}
-                                        onChange={handleChange}
-                                        name='seatNumber'
-                                        type={'number'}
-                                        margin="normal"
-                                        variant='standard'
-                                    />
-                                    <FormLabel>
-                                        Booking Date
-                                    </FormLabel>
-                                    <TextField
-                                        value={inputs.date}
-                                        onChange={handleChange}
-                                        name='date'
-                                        type={"date"}
-                                        margin="normal"
-                                        variant='standard'
-                                    />
-                                    <Button type='submit' sx={{ mt: 3 }}>
-                                        Book Now
-                                    </Button>
+                                    <form onSubmit={handleSubmit}>
+                                        <Box
+                                            padding={5} // 1st  
+                                            margin={'auto'}
+                                            display="flex"
+                                            flexDirection={'column'}
+                                        >
+                                            <FormLabel>
+                                                seat Number
+                                            </FormLabel>
+                                            <TextField
+                                                value={inputs.seatNumber}
+                                                onChange={handleChange}
+                                                name='seatNumber'
+                                                type={'number'}
+                                                margin="normal"
+                                                variant='standard'
+                                            />
+                                            <FormLabel>
+                                                Booking Date
+                                            </FormLabel>
+                                            <TextField
+                                                value={inputs.date}
+                                                onChange={handleChange}
+                                                name='date'
+                                                type={"date"}
+                                                margin="normal"
+                                                variant='standard'
+                                            />
+                                            <Button type='submit' sx={{ mt: 3 }}>
+                                                Book Now
+                                            </Button>
+                                        </Box>
+                                    </form>
+
                                 </Box>
-                            </form>
-                        </Box>
                     </Box>
                 </Fragment>
             }
-
-        </div>
-    )
+            </>
+  )
 }
-export default Bookings
+
+export default Booking

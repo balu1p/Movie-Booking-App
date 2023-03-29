@@ -1,29 +1,28 @@
 import React from 'react'
 import { useDispatch } from 'react-redux';
-import { sendUserAuthRequest } from '../../api-helpers/api-helpers';
-import { userActions } from '../../Store';
-import AuthForm from '../Auth/AuthForm'
+import { sendUserAuthRequest } from '../../api-helper/api-helpers';
+import { userActions } from '../../store';
+import AuthForm from './AuthForm'
+
 
 const Auth = () => {
-    const dispatch = useDispatch();
-    const onResReceived = (data) => {
-        console.log(data);
-        dispatch(userActions.login());
-        localStorage.setItem("userId", data.id);
-    }
-        const getData = (data) => {
-            console.log(data);
-            sendUserAuthRequest(data.inputs, data.signup).then(onResReceived)
-                //.then((res) => console.log(res))
-                //.then(() => dispatch(userActions.login()))
-                .catch((err) => console.log(err));
-            
-            
-        }
-    return (
+  const dispatch=useDispatch();
+  const onResponseRecived=(data)=>{
+    console.log(data);
+    dispatch(userActions.login());
+    localStorage.setItem("userId",data.id);
+  }
+  const getData=(data)=>{
+    console.log("Calling to",data);
+    sendUserAuthRequest(data.inputs,data.signup)
+    .then(onResponseRecived)
+    .catch(err=>{console.log(err)})
+  };
+  return (
     <div>
-            <AuthForm onSubmit={getData} isAdmin={false} />
+      <AuthForm onSubmit={getData} isAdmin={false}/>
     </div>
-    )
-};
+  )
+}
+
 export default Auth

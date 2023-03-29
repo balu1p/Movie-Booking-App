@@ -1,44 +1,29 @@
-import { Box, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { getAllMovies } from '../../api-helpers/api-helpers';
-import MovieItem from './MovieItem';
-
+import { Box } from '@mui/system'
+import { Typography } from '@mui/material'
+import { getAllMovies } from '../../api-helper/api-helpers'
+// import MovieItems from './MovieItems'
+import MovieItems from './MovieItem'
 const Movies = () => {
-  const [movies, setMovies] = useState();
-  useEffect(() => {
-    getAllMovies().then((data)=>setMovies(data.movies)).catch(err=>console.log(err));
-  }, [])
-  return <Box margin={'auto'} marginTop={4}>
-    <Typography variant='h4'
-      margin={"auto"}
-      padding={2}
-      width="40%"
-      bgcolor={"#900C3F"}
-      color="#FFFFFF"
-      textAlign="center">
-      All Movies
-    </Typography> 
-    
-    <Box width={'100%'}
-      margin="auto"
-      marginTop={5}
-      display={'flex'}
-      justifyContent= "flex-start"
-      flexWrap={"wrap"}
-    >
-      {movies &&
-        movies.map((movie, index) => (
-        <MovieItem
-                    id={movie._id}
-                    title={movie.title}
-                    posterUrl={movie.posterUrl}
-                    releaseDate={movie.releaseDate}
-                    key={index}
-                />))}
-      
+  const [Movies, setMovies] = useState([])
+  useEffect(()=>{
+    getAllMovies().then((data)=>setMovies(data.movies)).catch((err)=>console.log(" no data found"))
+  }
+  ,[])
+  
+ 
+  return (
+    <Box margin={"auto"} marginTop={4}>
+  <Typography variant='h4' padding={2} textAlign='center' bgcolor={'#900C3F'} width="40%" color="white" margin={"auto"}>
+    All Movies
+  </Typography>
+  <Box width={"100%"} margin={'auto'} marginTop='5' display={"flex"} justifyContent='flex-start' flexWrap={'wrap'}>
+    {Movies.map((item,idex)=>
+      <MovieItems id={item._id} title={item.title} posterUrl={item.posterUrl} releaseDate={item.releaseDate} key={idex}/>
+    )}
+  </Box>
     </Box>
-  </Box> 
-
-};
+  )
+}
 
 export default Movies

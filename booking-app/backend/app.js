@@ -1,42 +1,31 @@
-const express = require ("express");
-const mongoose  = require ("mongoose");
+const express = require('express')
 const app = express();
-const dotenv  = require ('dotenv');
-const userRouter  = require ("./routes/user-routes.js");
-const adminRouter  = require  ("./routes/admin-routes.js");
-const movieRouter  = require  ("./routes/movie-routes.js");
-const bookingRouter = require("./routes/booking-routes.js");
-const cors = require('cors');
+require('dotenv').config();
+
+
+// DB CONNECTION
+const Connection=require('./utils/dbConnect');
+Connection();
+
+const UserRouter=require('./routes/userRoutes');
+const adminRouter = require('./routes/adminRoutes');
+const movieRouter = require('./routes/moviesRoutes');
+const bookingRouter=require('./routes/bookingRoutes');
+const cors=require('cors');
+// PORT NUMBER 
+const PORT=process.env.PORT;
 app.use(cors());
-dotenv.config();
-const PORT=4500;
 
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    next();
-  });
 
-//middleware routes
+// middleware routes
 app.use(express.json());
-app.use("/user", userRouter); 
-app.use("/admin", adminRouter); 
-app.use("/movie", movieRouter);
-app.use("/booking", bookingRouter);   
+app.use('/users',UserRouter);
+app.use('/admin',adminRouter);
+app.use('/movies',movieRouter);
+app.use('/booking',bookingRouter)
 
-// ${process.env.MONGODB_PASSWORD}
-mongoose.connect(`mongodb+srv://balu48:3uicjPIhODa1t9cN@movie-app.llc1gwx.mongodb.net/?retryWrites=true&w=majority`,
-    {
-        useUnifiedTopology: true,
-        useNewUrlParser: true
-    }
-)
-    .then(() => 
-        console.log("connected successfully")
-)
-    .catch((e) => console.log(e));
 
-    app.listen(PORT,()=>{
-        console.log(`SERVER RUNNING ON ${PORT}`);
-    })
+
+app.listen(PORT,()=>{
+    console.log(`SERVER RUNNING ON ${PORT}`);
+})
